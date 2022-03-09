@@ -1,0 +1,26 @@
+name: validate pull requests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository content
+        uses: actions/checkout@v2
+
+      - name: Get changed files
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v17.3
+        with:
+          files: README.md
+      
+      - name: analyzing modifications
+        if: steps.changed-files-specific.outputs.only_modified == 'true'
+        uses: peter-evans/close-pull@v1
+        with:
+          comment: "eh ithenth mango"
